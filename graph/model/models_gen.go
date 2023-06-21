@@ -3,10 +3,11 @@
 package model
 
 type BookListing struct {
-	ID          string `json:"_id"`
-	Title       string `json:"title"`
-	Description string `json:"description"`
-	Author      string `json:"author"`
+	ID          string  `json:"_id"`
+	Title       string  `json:"title"`
+	Description string  `json:"description"`
+	Author      string  `json:"author"`
+	AddedOn     float64 `json:"addedOn"`
 }
 
 type CreateBookListingInput struct {

@@ -4,7 +4,6 @@ go 1.20
 
 require (
 	github.com/99designs/gqlgen v0.17.33
-	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/vektah/gqlparser/v2 v2.5.3
 	go.mongodb.org/mongo-driver v1.11.7
 )
@@ -14,10 +13,16 @@ require (
 	github.com/cpuguy83/go-md2man/v2 v2.0.2 // indirect
 	github.com/golang/snappy v0.0.1 // indirect
 	github.com/gorilla/websocket v1.5.0 // indirect
+	github.com/gravityblast/fresh v0.0.0-20190826141211-0fa698148017 // indirect
 	github.com/hashicorp/golang-lru/v2 v2.0.3 // indirect
+	github.com/howeyc/fsnotify v0.9.0 // indirect
 	github.com/klauspost/compress v1.13.6 // indirect
+	github.com/mattn/go-colorable v0.1.13 // indirect
+	github.com/mattn/go-isatty v0.0.19 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/montanaflynn/stats v0.0.0-20171201202039-1bf9dbcd8cbe // indirect
+	github.com/pilu/config v0.0.0-20131214182432-3eb99e6c0b9a // indirect
+	github.com/pilu/fresh v0.0.0-20190826141211-0fa698148017 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/urfave/cli/v2 v2.25.5 // indirect

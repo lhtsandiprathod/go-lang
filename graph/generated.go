@@ -46,6 +46,7 @@ type DirectiveRoot struct {
 
 type ComplexityRoot struct {
 	BookListing struct {
+		AddedOn     func(childComplexity int) int
 		Author      func(childComplexity int) int
 		Description func(childComplexity int) int
 		ID          func(childComplexity int) int
@@ -95,6 +96,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 	ec := executionContext{nil, e, 0, 0, nil}
 	_ = ec
 	switch typeName + "." + field {
+
+	case "BookListing.addedOn":
+		if e.complexity.BookListing.AddedOn == nil {
+			break
+		}
+
+		return e.complexity.BookListing.AddedOn(childComplexity), true
 
 	case "BookListing.author":
 		if e.complexity.BookListing.Author == nil {
@@ -644,6 +652,50 @@ func (ec *executionContext) fieldContext_BookListing_author(ctx context.Context,
 	return fc, nil
 }
 
+func (ec *executionContext) _BookListing_addedOn(ctx context.Context, field graphql.CollectedField, obj *model.BookListing) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_BookListing_addedOn(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.AddedOn, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_BookListing_addedOn(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "BookListing",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _DeleteBook_DeletedBookID(ctx context.Context, field graphql.CollectedField, obj *model.DeleteBook) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_DeleteBook_DeletedBookID(ctx, field)
 	if err != nil {
@@ -779,6 +831,8 @@ func (ec *executionContext) fieldContext_Mutation_createBookListing(ctx context.
 				return ec.fieldContext_BookListing_description(ctx, field)
 			case "author":
 				return ec.fieldContext_BookListing_author(ctx, field)
+			case "addedOn":
+				return ec.fieldContext_BookListing_addedOn(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type BookListing", field.Name)
 		},
@@ -844,6 +898,8 @@ func (ec *executionContext) fieldContext_Mutation_UpdateBooks(ctx context.Contex
 				return ec.fieldContext_BookListing_description(ctx, field)
 			case "author":
 				return ec.fieldContext_BookListing_author(ctx, field)
+			case "addedOn":
+				return ec.fieldContext_BookListing_addedOn(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type BookListing", field.Name)
 		},
@@ -970,6 +1026,8 @@ func (ec *executionContext) fieldContext_Query_jobs(ctx context.Context, field g
 				return ec.fieldContext_BookListing_description(ctx, field)
 			case "author":
 				return ec.fieldContext_BookListing_author(ctx, field)
+			case "addedOn":
+				return ec.fieldContext_BookListing_addedOn(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type BookListing", field.Name)
 		},
@@ -1024,6 +1082,8 @@ func (ec *executionContext) fieldContext_Query_job(ctx context.Context, field gr
 				return ec.fieldContext_BookListing_description(ctx, field)
 			case "author":
 				return ec.fieldContext_BookListing_author(ctx, field)
+			case "addedOn":
+				return ec.fieldContext_BookListing_addedOn(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type BookListing", field.Name)
 		},
@@ -1089,6 +1149,8 @@ func (ec *executionContext) fieldContext_Query_book(ctx context.Context, field g
 				return ec.fieldContext_BookListing_description(ctx, field)
 			case "author":
 				return ec.fieldContext_BookListing_author(ctx, field)
+			case "addedOn":
+				return ec.fieldContext_BookListing_addedOn(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type BookListing", field.Name)
 		},
@@ -3142,6 +3204,11 @@ func (ec *executionContext) _BookListing(ctx context.Context, sel ast.SelectionS
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "addedOn":
+			out.Values[i] = ec._BookListing_addedOn(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -3804,6 +3871,21 @@ func (ec *executionContext) marshalNDeleteBook2ᚖbooknameᚋgraphᚋmodelᚐDel
 		return graphql.Null
 	}
 	return ec._DeleteBook(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNFloat2float64(ctx context.Context, v interface{}) (float64, error) {
+	res, err := graphql.UnmarshalFloatContext(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNFloat2float64(ctx context.Context, sel ast.SelectionSet, v float64) graphql.Marshaler {
+	res := graphql.MarshalFloatContext(v)
+	if res == graphql.Null {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+	}
+	return graphql.WrapContextMarshaler(ctx, res)
 }
 
 func (ec *executionContext) unmarshalNID2string(ctx context.Context, v interface{}) (string, error) {

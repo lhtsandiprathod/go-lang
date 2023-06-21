@@ -7,6 +7,7 @@ type BookListing {
   title: String!
   description: String!
   author: String!
+  addedOn: Float!
 }
 
 type Query {
@@ -31,6 +32,7 @@ input UpdateBookListingInput {
   title: String
   description: String
   author: String
+
 }
 
 type DeleteBook {

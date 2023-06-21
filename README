@@ -25,3 +25,5 @@
 7. After you've written the graphql schema, run this - `go run github.com/99designs/gqlgen generate`
 
 8. To run the project - `go run ./server.go`
+
+9. to autoRestart the server - `run command - fresh` if the binaries were installed
